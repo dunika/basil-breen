@@ -217,6 +217,7 @@ const Home: NextPage = () => {
           </Typography>
           <YouTubeVideo src="https://www.youtube.com/embed/vedeoseries?list=PL8u6B-yLLbT6EkFDqHZuWeJ1SlhaezS0T" />
         </Box>
+        <Link sx={{ mt: 4 }} href="https://github.com/dunika/basil-breen">Source Code</Link>
       </Box>
     </Container>
   )
