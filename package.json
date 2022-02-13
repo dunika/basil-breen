@@ -1,0 +1,38 @@
+{
+  "name": "nextjs-with-typescript",
+  "version": "5.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
+  },
+  "dependencies": {
+    "@emotion/cache": "latest",
+    "@emotion/react": "latest",
+    "@emotion/server": "latest",
+    "@emotion/styled": "latest",
+    "@mui/icons-material": "^5.4.1",
+    "@mui/material": "latest",
+    "clsx": "^1.1.1",
+    "copy-to-clipboard": "^3.3.1",
+    "next": "latest",
+    "react": "latest",
+    "react-copy-to-clipboard": "^5.0.4",
+    "react-dom": "latest",
+    "react-social-icons": "^5.10.0",
+    "react-youtube": "^7.14.0",
+    "unstated-next": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@typescript-eslint/eslint-plugin": "^5.11.0",
+    "eslint": "latest",
+    "eslint-config-dunika": "^0.0.0",
+    "eslint-config-next": "latest",
+    "typescript": "latest"
+  }
+}
