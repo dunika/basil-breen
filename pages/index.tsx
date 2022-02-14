@@ -56,11 +56,12 @@ const originalMusic = [
     url: 'https://www.youtube.com/channel/UCapU9dIhpBVnkEN3-ESAf0Q', // TODO
   },
   {
-    img: <Apple style={{
-      color: '#999999',
-      fontSize: 26,
-      paddingBottom: 3,
-    }}
+    img: <Apple
+      style={{
+        color: '#999999',
+        fontSize: 26,
+        paddingBottom: 3,
+      }}
     />,
     text: 'Apple',
     url: 'https://music.apple.com/us/artist/basil-breen/1563295587',
@@ -71,19 +72,21 @@ const originalMusic = [
     text: 'TikTok',
   },
   {
-    img: <Instagram style={{
-      color: '#833AB4',
-      fontSize: 26,
-    }}
+    img: <Instagram
+      style={{
+        color: '#833AB4',
+        fontSize: 26,
+      }}
     />,
     text: 'Instagram',
     url: 'https://www.instagram.com/basilbreen/', // TODO
   },
   {
-    img: <Facebook style={{
-      color: '#4267B2',
-      fontSize: 26,
-    }}
+    img: <Facebook
+      style={{
+        color: '#4267B2',
+        fontSize: 26,
+      }}
     />,
     text: 'Facebook',
     url: 'https://www.facebook.com/basilbreenlad',
