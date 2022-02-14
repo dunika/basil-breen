@@ -6,6 +6,14 @@ import Document, {
 } from 'next/document'
 import theme from '../src/theme'
 
+const googleTag = `
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PBQWJ2J');
+`
+
 export default class AppDocument extends Document {
   render() {
     return (
@@ -24,8 +32,17 @@ export default class AppDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,700&display=swap"
           />
           {(this.props as any).emotionStyleTags}
+          <script dangerouslySetInnerHTML={{ __html: googleTag }} />
         </Head>
         <body>
+          <noscript>
+            <iframe
+              src="https://www.googletagmanager.com/ns.html?id=GTM-PBQWJ2J"
+              height="0"
+              width="0"
+              style="display:none;visibility:hidden"
+            />
+          </noscript>
           <Main />
           <NextScript />
         </body>
