@@ -32,7 +32,7 @@ export default class AppDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,700&display=swap"
           />
           {(this.props as any).emotionStyleTags}
-          <script dangerouslySetInnerHTML={{ __html: googleTag }} />
+          {process.env.NODE_ENV === 'production' ? <script dangerouslySetInnerHTML={{ __html: googleTag }} /> : null}
         </Head>
         <body>
           <noscript>
