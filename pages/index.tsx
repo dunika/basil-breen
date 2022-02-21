@@ -123,8 +123,8 @@ const Section = ({ items }) => {
     >
       {items.map(({ text, img: Img, url }) => {
         return (
-
           <Button
+            key={url}
             href={url}
             startIcon={Img}
             size="large"
