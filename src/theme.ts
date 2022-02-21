@@ -5,8 +5,7 @@ import {
 
 export const blue = '#2ea1ff'
 
-// Create a theme instance.
-const theme = createTheme({
+const coreTheme = createTheme({
   typography: {
     fontFamily: 'Raleway',
     button: {
@@ -25,7 +24,58 @@ const theme = createTheme({
     secondary: {
       main: '#fff',
     },
+
   },
 })
+
+const theme = {
+  ...coreTheme,
+  components: {
+    MuiButton: {
+      defaultProps: {
+        variant: 'contained',
+      },
+    },
+    MuiInputLabel: {
+      defaultProps: {
+        shrink: true,
+        variant: 'outlined',
+      },
+      styleOverrides: {
+        root: {
+          color: coreTheme.palette.primary.main,
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          color: coreTheme.palette.primary.main,
+          fieldset: {
+            borderColor: coreTheme.palette.primary.main,
+            legend: {
+              maxWidth: '100%',
+            },
+          },
+          '.MuiInputAdornment-positionStart p': {
+            color: coreTheme.palette.primary.main,
+          },
+          ':hover': {
+            'fieldset.MuiOutlinedInput-notchedOutline': {
+              borderColor: blue,
+            },
+          },
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        // root: {
+
+        // },
+      },
+    },
+  },
+}
 
 export default theme
