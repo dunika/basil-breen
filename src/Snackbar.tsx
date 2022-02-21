@@ -71,6 +71,11 @@ const SnackbarContainer = () => {
 
   return (
     <Snackbar
+      ContentProps={{
+        sx: {
+          fontWeight: 'bold',
+        },
+      }}
       key={messageInfo ? messageInfo.key : undefined}
       message={messageInfo ? messageInfo.message : undefined}
       open={isOpen}
