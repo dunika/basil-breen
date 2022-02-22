@@ -55,6 +55,13 @@ const drawEpisodeNumber = (context, number) => {
   context.fillText(text, 1040 - width, 1040)
 }
 
+const downloadImage = (image, filename) => {
+  const link = document.createElement('a')
+  link.download = filename
+  link.href = image
+  link.click()
+}
+
 const drawDescription = (context, description) => {
   setFontSize(context, 72)
 
@@ -110,6 +117,26 @@ const ThumbnailGenerator: NextPage = () => {
     }
   }, [description, context])
 
+  const download = () => {
+    const wideCanvasContext = document.querySelector('#wide-canvas').getContext('2d')
+    const longCanvasContext = document.querySelector('#long-canvas').getContext('2d')
+    const currentImage = canvas.current.toDataURL('image/jpeg')
+
+    const imageObj = new Image()
+    imageObj.src = currentImage
+    debugger
+    imageObj.onload = async () => {
+      await document.fonts.ready
+      wideCanvasContext.drawImage(imageObj, 420, 0)
+      longCanvasContext.drawImage(imageObj, 0, 420)
+      const wideImage = document.querySelector('#wide-canvas').toDataURL('image/jpeg')
+      const longImage = document.querySelector('#long-canvas').toDataURL('image/jpeg')
+      downloadImage(wideImage, 'Facebook,Youtube')
+      downloadImage(longImage, 'Instagram')
+      downloadImage(currentImage, 'Spotify')
+    }
+  }
+
   return (
     <Container>
       <Box
@@ -152,19 +179,22 @@ const ThumbnailGenerator: NextPage = () => {
               mb: 2,
             }}
           />
-          <Button
-            color="primary"
-            onClick={() => {
-              setEpisodeNumber('')
-              setDescription('')
-              initialize(context)
-            }}
-          >
-            Reset
-          </Button>
-          <Button color="primary">
-            Generate
-          </Button>
+          <Box sx={{ display: 'flex' }}>
+            <Button
+              sx={{ mr: 2 }}
+              color="primary"
+              onClick={() => {
+                setEpisodeNumber('')
+                setDescription('')
+                initialize(context)
+              }}
+            >
+              Reset
+            </Button>
+            <Button color="primary" onClick={download}>
+              Download
+            </Button>
+          </Box>
         </Paper>
         <Box
           sx={{
@@ -185,8 +215,8 @@ const ThumbnailGenerator: NextPage = () => {
             width="1080"
             height="1080"
           />
-          <canvas style={{ display: 'none' }} id="wide" width="1920" height="1080" />
-          <canvas style={{ display: 'none' }} id="long" width="1080" height="1920" />
+          <canvas style={{ display: 'none' }} id="wide-canvas" width="1920" height="1080" />
+          <canvas style={{ display: 'none' }} id="long-canvas" width="1080" height="1920" />
         </Box>
       </Box>
     </Container>
