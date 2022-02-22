@@ -161,6 +161,7 @@ const Home: NextPage = () => {
         </Typography>
         <Box
           sx={{
+            mt: 1,
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -170,20 +171,24 @@ const Home: NextPage = () => {
           <Link href="mailto:hello@basilbreen.com">
             HELLO@BASILBREEN.COM
           </Link>
-          <IconButton
+          <Button
+            variant="contained"
+            color="secondary"
             sx={{
-              color: blue,
+              color: 'white',
             }}
             style={{
-              marginLeft: 2,
+              padding: '4px 4px',
+              minWidth: 0,
+              marginLeft: 8,
             }}
             onClick={() => {
               copy('hello@basilbreen.com')
               setMessage('Copied email address')
             }}
           >
-            <ContentCopyIcon fontSize="small" />
-          </IconButton>
+            <ContentCopyIcon color="primary" fontSize="small" />
+          </Button>
         </Box>
         <Section items={originalMusic} />
         <Box
@@ -220,7 +225,18 @@ const Home: NextPage = () => {
           </Typography>
           <YouTubeVideo src="https://www.youtube.com/embed/vedeoseries?list=PL8u6B-yLLbT6EkFDqHZuWeJ1SlhaezS0T" />
         </Box>
-        <Link sx={{ mt: 4 }} href="https://github.com/dunika/basil-breen">Source Code</Link>
+        <Box
+          sx={{
+            mt: 4,
+            display: 'flex',
+          }}
+        >
+          <Link href="https://github.com/dunika/basil-breen">Source Code</Link>
+          &nbsp;
+          <span>|</span>
+          &nbsp;
+          <Link href="./thumbnail-generator">Thumbnail Generator</Link>
+        </Box>
       </Box>
     </Container>
   )

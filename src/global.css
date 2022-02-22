@@ -1,6 +1,7 @@
 * {
   font-feature-settings: 'lnum' 1;
 	max-width: 100%;
+	position: relative;
 }
 
 .youtube-container {
