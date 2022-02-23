@@ -171,9 +171,9 @@ const Home: NextPage = () => {
             mb: 1,
           }}
         >
-          <Link href="mailto:hello@basilbreen.com">
+          {/* <Link href="mailto:hello@basilbreen.com">
             HELLO@BASILBREEN.COM
-          </Link>
+          </Link> */}
           <Button
             variant="contained"
             color="secondary"
