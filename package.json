@@ -1,0 +1,19 @@
+{
+  "name": "basil-breen",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dunika/basil-breen.git"
+  },
+  "author": "Donncha Breen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dunika/basil-breen/issues"
+  },
+  "homepage": "https://basilbreen.com",
+  "workspaces": [
+    "./packages/*"
+  ]
+}
