@@ -174,7 +174,7 @@ const Home: NextPage = () => {
           {/* <Link href="mailto:hello@basilbreen.com">
             HELLO@BASILBREEN.COM
           </Link> */}
-          <Button
+          {/* <Button
             variant="contained"
             color="secondary"
             sx={{
@@ -191,7 +191,7 @@ const Home: NextPage = () => {
             }}
           >
             <ContentCopyIcon color="primary" fontSize="small" />
-          </Button>
+          </Button> */}
         </Box>
         <Section items={originalMusic} />
         <Box
