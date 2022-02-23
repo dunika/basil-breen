@@ -13,8 +13,8 @@ import {
 } from '@mui/icons-material'
 import {
   Button,
-  IconButton,
 } from '@mui/material'
+import Head from 'next/head'
 import {
   SnackbarStore,
   SnackbarProvider,
@@ -144,6 +144,9 @@ const Home: NextPage = () => {
   const { setMessage } = SnackbarStore.useContainer()
   return (
     <Container maxWidth="lg" sx={{ px: 4 }}>
+      <Head>
+        <title>Basil Breen | Adventures in Music</title>
+      </Head>
       <Box
         sx={{
           my: 2,

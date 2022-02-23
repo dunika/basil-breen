@@ -7,6 +7,7 @@ import {
   Box,
 } from '@mui/material'
 import type { NextPage } from 'next'
+import Head from 'next/head'
 import {
   useEffect,
   useCallback,
@@ -124,6 +125,9 @@ const ThumbnailGenerator: NextPage = () => {
         justifyContent: 'center',
       }}
     >
+      <Head>
+        <title>Basil Breen | Thumbnail Generator</title>
+      </Head>
       <Paper
         sx={{
           mr: 2,
