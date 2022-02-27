@@ -15,5 +15,8 @@
   "homepage": "https://basilbreen.com",
   "workspaces": [
     "./packages/*"
-  ]
+  ],
+  "devDependencies": {
+    "@types/lodash": "^4.14.179"
+  }
 }

@@ -13,10 +13,10 @@ module.exports = {
     'react/no-array-index-key': 1,
     'jsx-a11y/click-events-have-key-events': 1,
     'jsx-a11y/no-static-element-interactions': 1,
-    "react/function-component-definition": 0,
-    "react/require-default-props": 0
+    'react/function-component-definition': 0,
+    'react/require-default-props': 0,
   },
   env: {
     browser: true,
   },
-};
+}

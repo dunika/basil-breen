@@ -1,7 +1,7 @@
 {
   "name": "eslint-config-dunika",
   "private": false,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "license": "ISC",
   "dependencies": {
     "@babel/eslint-parser": "^7.15.8",

@@ -23,13 +23,16 @@ module.exports = {
     'no-plusplus': 0,
     'import/prefer-default-export': 0,
     'object-property-newline': ['error', { allowAllPropertiesOnSameLine: false }],
-    "semi": [
+    semi: [
       2,
-      "never"
+      'never',
     ],
-    "import/extensions": 0
+    'import/extensions': 0,
   },
   env: {
     node: true,
   },
-};
+  parserOptions: {
+    ecmaVersion: 2020,
+  },
+}

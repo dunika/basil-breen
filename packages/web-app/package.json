@@ -17,6 +17,7 @@
     "@mui/icons-material": "^5.4.1",
     "@mui/material": "latest",
     "clsx": "^1.1.1",
+    "lodash": "^4.17.21",
     "copy-to-clipboard": "^3.3.1",
     "next": "latest",
     "react": "latest",
@@ -31,7 +32,7 @@
     "@types/react": "latest",
     "@typescript-eslint/eslint-plugin": "^5.11.0",
     "eslint": "latest",
-    "eslint-config-dunika": "^0.0.0",
+    "eslint-config-dunika": "^0.0.1",
     "eslint-config-next": "latest",
     "typescript": "latest"
   }
