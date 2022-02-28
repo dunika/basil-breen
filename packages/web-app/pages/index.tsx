@@ -1,5 +1,4 @@
 import type { NextPage } from 'next'
-import Image from 'next/image'
 import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 import List from '@mui/material/List'
@@ -39,7 +38,7 @@ const YouTubeVideo = ({ src }: { src: string}) => {
 
 const originalMusic = [
   {
-    img: <Image
+    img: <img
       alt="Spotify"
       width="18"
       height="18"
@@ -70,7 +69,7 @@ const originalMusic = [
     url: 'https://music.apple.com/us/artist/basil-breen/1563295587',
   },
   {
-    img: <Image
+    img: <img
       alt="TikTok"
       width="18"
       height="18"
