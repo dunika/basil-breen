@@ -111,6 +111,7 @@ type SectionProps = {
 }
 
 const Section = (props: SectionProps) => {
+  const { setMessage } = SnackbarStore.useContainer()
   const { items } = props
   return (
     <List sx={{
@@ -122,6 +123,21 @@ const Section = (props: SectionProps) => {
       maxWidth: '100%',
     }}
     >
+      <Button
+        sx={{
+          gridColumn: ['1/span 2', '2/3'],
+        }}
+        variant="outlined"
+        color="secondary"
+        onClick={() => {
+          copy('hello@basilbreen.com')
+          setMessage('Copied email address')
+        }}
+        startIcon={<EmailIcon color="secondary" fontSize="small" />}
+      >
+        Email
+      </Button>
+      <Box sx={{ display: ['none', 'block'] }} />
       {items.map((item) => {
         const { text, img: Img, url } = item
         return (
@@ -143,7 +159,6 @@ const Section = (props: SectionProps) => {
 }
 
 const Home: NextPage = () => {
-  const { setMessage } = SnackbarStore.useContainer()
   return (
     <Container maxWidth="lg" sx={{ px: 4 }}>
       <Head>
@@ -164,25 +179,7 @@ const Home: NextPage = () => {
         >
           BASIL BREEN
         </Typography>
-        <Box
-          sx={{
-            mt: 1,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            mb: 1,
-          }}
-        >
-          <Button
-            onClick={() => {
-              copy('hello@basilbreen.com')
-              setMessage('Copied email address')
-            }}
-            startIcon={<EmailIcon color="secondary" fontSize="small" />}
-          >
-            Email
-          </Button>
-        </Box>
+
         <Section items={originalMusic} />
         <Box
           sx={{
