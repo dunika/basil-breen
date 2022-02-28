@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography'
 import List from '@mui/material/List'
 import Box from '@mui/material/Box'
 import copy from 'copy-to-clipboard'
-import ContentCopyIcon from '@mui/icons-material/ContentCopy'
+import EmailIcon from '@mui/icons-material/AlternateEmail'
 import {
   Apple,
   YouTube,
@@ -20,7 +20,6 @@ import {
   SnackbarProvider,
 } from '../src/Snackbar'
 import Link from '../src/Link'
-import { blue } from '../src/theme'
 
 const YouTubeVideo = ({ src }) => {
   return (
@@ -171,26 +170,15 @@ const Home: NextPage = () => {
             mb: 1,
           }}
         >
-          <Link href="mailto:hello@basilbreen.com">
-            HELLO@BASILBREEN.COM
-          </Link>
+
           <Button
-            variant="contained"
-            color="secondary"
-            sx={{
-              color: 'white',
-            }}
-            style={{
-              padding: '4px 4px',
-              minWidth: 0,
-              marginLeft: 8,
-            }}
             onClick={() => {
               copy('hello@basilbreen.com')
               setMessage('Copied email address')
             }}
+            startIcon={<EmailIcon color="secondary" fontSize="small" />}
           >
-            <ContentCopyIcon color="primary" fontSize="small" />
+            Email
           </Button>
         </Box>
         <Section items={originalMusic} />
