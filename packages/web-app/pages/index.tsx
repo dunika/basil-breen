@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import Image from 'next/image'
 import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 import List from '@mui/material/List'
@@ -15,16 +16,18 @@ import {
   Button,
 } from '@mui/material'
 import Head from 'next/head'
+import { ReactElement } from 'react'
 import {
   SnackbarStore,
   SnackbarProvider,
 } from '../src/Snackbar'
 import Link from '../src/Link'
 
-const YouTubeVideo = ({ src }) => {
+const YouTubeVideo = ({ src }: { src: string}) => {
   return (
     <div className="youtube-container">
       <iframe
+        title="YouTube"
         src={src}
         frameBorder="0"
         allowFullScreen
@@ -36,7 +39,8 @@ const YouTubeVideo = ({ src }) => {
 
 const originalMusic = [
   {
-    img: <img
+    img: <Image
+      alt="Spotify"
       width="18"
       height="18"
       src="https://cdn.cdnlogo.com/logos/s/89/spotify.svg"
@@ -66,7 +70,12 @@ const originalMusic = [
     url: 'https://music.apple.com/us/artist/basil-breen/1563295587',
   },
   {
-    img: <img width="18" height="18" src="https://cdn.cdnlogo.com/logos/t/6/tiktok-app-icon.svg" />,
+    img: <Image
+      alt="TikTok"
+      width="18"
+      height="18"
+      src="https://cdn.cdnlogo.com/logos/t/6/tiktok-app-icon.svg"
+    />,
     url: 'https://www.tiktok.com/@basilbreen?lang=en',
     text: 'TikTok',
   },
@@ -92,24 +101,18 @@ const originalMusic = [
   },
 ]
 
-// const originalMusic = [
-//   {
-//     img: 'https://cdn.cdnlogo.com/logos/s/89/spotify.svg',
-//     url: '',
-//   },
-//   {
-//     img: 'https://cdn.cdnlogo.com/logos/y/57/youtube-icon.svg',
-//     url: 'https://www.youtube.com/channel/UCapU9dIhpBVnkEN3-ESAf0Q', // TODO
-//   },
-//   {
-//     img: 'https://cdn.cdnlogo.com/logos/a/77/apple.svg',
-//     url: 'https://music.apple.com/us/artist/basil-breen/1563295587',
-//   },
-// ]
+type SocialItem = {
+  url: string,
+  img: ReactElement,
+  text: string
+}
 
-// https://www.youtube.com/playlist?list=PL8u6B-yLLbT5x4RsVpdCpaw-0koJ5BN43 pod
+type SectionProps = {
+  items: SocialItem[]
+}
 
-const Section = ({ items }) => {
+const Section = (props: SectionProps) => {
+  const { items } = props
   return (
     <List sx={{
       display: 'grid',
@@ -120,7 +123,8 @@ const Section = ({ items }) => {
       maxWidth: '100%',
     }}
     >
-      {items.map(({ text, img: Img, url }) => {
+      {items.map((item) => {
+        const { text, img: Img, url } = item
         return (
           <Button
             key={url}
@@ -170,7 +174,6 @@ const Home: NextPage = () => {
             mb: 1,
           }}
         >
-
           <Button
             onClick={() => {
               copy('hello@basilbreen.com')
@@ -233,10 +236,12 @@ const Home: NextPage = () => {
   )
 }
 
-export default function Index(props) {
+const HomeProvider: NextPage = (props) => {
   return (
     <SnackbarProvider>
       <Home {...props} />
     </SnackbarProvider>
   )
 }
+
+export default HomeProvider
