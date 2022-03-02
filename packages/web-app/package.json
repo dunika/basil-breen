@@ -31,7 +31,6 @@
     "@types/node": "latest",
     "@types/react": "latest",
     "@typescript-eslint/eslint-plugin": "^5.11.0",
-    "eslint": "latest",
     "eslint-config-dunika": "^0.0.1",
     "eslint-config-next": "latest",
     "typescript": "latest"

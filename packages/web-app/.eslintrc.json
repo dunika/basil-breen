@@ -5,14 +5,5 @@
   "extends": [
     "next",
     "dunika/react"
-  ],
-  "rules": {
-    "semi": [
-      2,
-      "never"
-    ],
-    "react/function-component-definition": 0,
-    "react/require-default-props": 0,
-    "import/extensions": 0
-  }
+  ]
 }
