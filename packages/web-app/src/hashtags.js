@@ -161,7 +161,7 @@ const getHashTags = (tagConfig) => {
     const tagGroup = tagGroups[tagGroupIndex]
 
     if (!tagGroup.length) {
-      tagGroups.splice(tagGroupIndex)
+      tagGroups.splice(tagGroupIndex, 1)
       if (!tagGroups.length) {
         break
       }
@@ -257,3 +257,11 @@ export const getPostMessages = (text, tagConfigs) => {
     tikTok: getTikTokMessage(text, tagConfigs.tikTok),
   }
 }
+
+const ashtags = getHashTags({
+  max: 11,
+  locations: ['dublin', 'ireland', 'skerries'],
+  postTypes: ['podcast'],
+})
+
+console.log(ashtags)

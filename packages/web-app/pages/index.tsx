@@ -154,6 +154,16 @@ const Section = (props: SectionProps) => {
           </Button>
         )
       })}
+      <Button
+        sx={{
+          gridColumn: ['1/span 2', '2/3'],
+        }}
+        variant="outlined"
+        color="secondary"
+        href="/podcast"
+      >
+        Podcast Links
+      </Button>
     </List>
   )
 }
