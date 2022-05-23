@@ -112,10 +112,10 @@ const ThumbnailGenerator: NextPage = () => {
       src: image,
     })
 
-    downloadImage(wideImage, 'Facebook_Youtube')
-    downloadImage(longImage, 'Instagram')
-    downloadImage(image, 'Spotify')
-  }, [canvas])
+    downloadImage(wideImage, 'Facebook_Youtube', episodeNumber)
+    downloadImage(longImage, 'Instagram', episodeNumber)
+    downloadImage(image, 'Spotify', episodeNumber)
+  }, [canvas, episodeNumber])
 
   return (
     <Container

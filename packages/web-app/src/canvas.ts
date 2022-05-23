@@ -45,9 +45,13 @@ export const fillWrappedText = (
   context.fillText(line, x, y)
 }
 
-export const downloadImage = (image: string, filename: string) => {
+export const downloadImage = (
+  image: string,
+  filename: string,
+  episodeNumber: string,
+) => {
   const link = document.createElement('a')
-  link.download = filename
+  link.download = `${filename}_${episodeNumber}`
   link.href = image
   link.click()
 }
