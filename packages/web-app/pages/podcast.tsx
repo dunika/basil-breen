@@ -7,7 +7,6 @@ import {
   Button,
   Paper,
 } from '@mui/material'
-import Link from '../src/Link'
 
 const links = [
   {
@@ -50,6 +49,17 @@ const links = [
       src="https://cdn.cdnlogo.com/logos/g/76/google-podcasts.svg"
     />,
   },
+  {
+    name: 'YouTube',
+    url: 'https://www.youtube.com/watch?v=mbs-M-LeTPg&list=PL8u6B-yLLbT5x4RsVpdCpaw-0koJ5BN43',
+    image: <img
+      alt="YouTube"
+      width="25"
+      height="25"
+      src="https://cdn.cdnlogo.com/logos/y/57/youtube-icon.svg"
+    />,
+  },
+
 ]
 
 const PodcastLinks: NextPage = () => {

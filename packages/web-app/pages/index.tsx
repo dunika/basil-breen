@@ -127,15 +127,14 @@ const Section = (props: SectionProps) => {
         sx={{
           gridColumn: ['1/span 2', '2/3'],
         }}
+        size="large"
         variant="outlined"
         color="secondary"
-        onClick={() => {
-          copy('hello@basilbreen.com')
-          setMessage('Copied email address')
-        }}
-        startIcon={<EmailIcon color="secondary" fontSize="small" />}
+        target="_blank"
+        href="https://revolut.me/breen"
+        startIcon={<span style={{ fontSize: 18 }}>🙏</span>}
       >
-        Email
+        Donate
       </Button>
       <Box sx={{ display: ['none', 'block'] }} />
       {items.map((item) => {
@@ -158,11 +157,16 @@ const Section = (props: SectionProps) => {
         sx={{
           gridColumn: ['1/span 2', '2/3'],
         }}
+        size="large"
         variant="outlined"
         color="secondary"
-        href="/podcast"
+        onClick={() => {
+          copy('hello@basilbreen.com')
+          setMessage('Copied email address')
+        }}
+        startIcon={<EmailIcon color="secondary" fontSize="small" />}
       >
-        Podcast Links
+        Email
       </Button>
     </List>
   )
@@ -189,8 +193,17 @@ const Home: NextPage = () => {
         >
           BASIL BREEN
         </Typography>
-
         <Section items={originalMusic} />
+        <Button
+          sx={{ mt: 2 }}
+          size="large"
+          variant="outlined"
+          color="secondary"
+          href="/podcast"
+          startIcon={<span style={{ fontSize: 18 }}>🎧</span>}
+        >
+          Podcast Links
+        </Button>
         <Box
           sx={{
             mt: 2,
