@@ -123,19 +123,6 @@ const Section = (props: SectionProps) => {
       maxWidth: '100%',
     }}
     >
-      <Button
-        sx={{
-          gridColumn: ['1/span 2', '2/3'],
-        }}
-        size="large"
-        variant="outlined"
-        color="secondary"
-        target="_blank"
-        href="https://revolut.me/breen"
-        startIcon={<span style={{ fontSize: 18 }}>🙏</span>}
-      >
-        Donate
-      </Button>
       <Box sx={{ display: ['none', 'block'] }} />
       {items.map((item) => {
         const { text, img: Img, url } = item
