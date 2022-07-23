@@ -6,12 +6,6 @@ import Box from '@mui/material/Box'
 import copy from 'copy-to-clipboard'
 import EmailIcon from '@mui/icons-material/AlternateEmail'
 import {
-  Apple,
-  YouTube,
-  Facebook,
-  Instagram,
-} from '@mui/icons-material'
-import {
   Button,
 } from '@mui/material'
 import Head from 'next/head'
@@ -21,6 +15,8 @@ import {
   SnackbarProvider,
 } from '../src/Snackbar'
 import Link from '../src/Link'
+import { socials } from '../src/socials'
+import { Harp } from '../src/harp'
 
 const YouTubeVideo = ({ src }: { src: string}) => {
   return (
@@ -36,70 +32,6 @@ const YouTubeVideo = ({ src }: { src: string}) => {
   )
 }
 
-const originalMusic = [
-  {
-    img: <img
-      alt="Spotify"
-      width="18"
-      height="18"
-      src="https://cdn.cdnlogo.com/logos/s/89/spotify.svg"
-    />,
-    url: 'https://open.spotify.com/artist/33JlGzdySKstj1KN0BGACE?si=CUjZmtQ4TVW2B6zY9ZDG9Q',
-    text: 'Spotify',
-  },
-  {
-    img: <YouTube
-      style={{
-        color: '#FF0000',
-        fontSize: 26,
-      }}
-    />,
-    text: 'YouTube',
-    url: 'https://www.youtube.com/channel/UCapU9dIhpBVnkEN3-ESAf0Q', // TODO
-  },
-  {
-    img: <Apple
-      style={{
-        color: '#999999',
-        fontSize: 26,
-        paddingBottom: 3,
-      }}
-    />,
-    text: 'Apple',
-    url: 'https://music.apple.com/us/artist/basil-breen/1563295587',
-  },
-  {
-    img: <img
-      alt="TikTok"
-      width="18"
-      height="18"
-      src="https://cdn.cdnlogo.com/logos/t/6/tiktok-app-icon.svg"
-    />,
-    url: 'https://www.tiktok.com/@basilbreen?lang=en',
-    text: 'TikTok',
-  },
-  {
-    img: <Instagram
-      style={{
-        color: '#833AB4',
-        fontSize: 26,
-      }}
-    />,
-    text: 'Instagram',
-    url: 'https://www.instagram.com/basilbreen/', // TODO
-  },
-  {
-    img: <Facebook
-      style={{
-        color: '#4267B2',
-        fontSize: 26,
-      }}
-    />,
-    text: 'Facebook',
-    url: 'https://www.facebook.com/basilbreenlad',
-  },
-]
-
 type SocialItem = {
   url: string,
   img: ReactElement,
@@ -111,7 +43,6 @@ type SectionProps = {
 }
 
 const Section = (props: SectionProps) => {
-  const { setMessage } = SnackbarStore.useContainer()
   const { items } = props
   return (
     <List sx={{
@@ -123,14 +54,13 @@ const Section = (props: SectionProps) => {
       maxWidth: '100%',
     }}
     >
-      <Box sx={{ display: ['none', 'block'] }} />
       {items.map((item) => {
-        const { text, img: Img, url } = item
+        const { text, Icon, url } = item
         return (
           <Button
             key={url}
             href={url}
-            startIcon={Img}
+            startIcon={<Icon />}
             size="large"
             target="_blank"
             variant="contained"
@@ -140,26 +70,14 @@ const Section = (props: SectionProps) => {
           </Button>
         )
       })}
-      <Button
-        sx={{
-          gridColumn: ['1/span 2', '2/3'],
-        }}
-        size="large"
-        variant="outlined"
-        color="secondary"
-        onClick={() => {
-          copy('hello@basilbreen.com')
-          setMessage('Copied email address')
-        }}
-        startIcon={<EmailIcon color="secondary" fontSize="small" />}
-      >
-        Email
-      </Button>
+
     </List>
   )
 }
 
 const Home: NextPage = () => {
+  const { setMessage } = SnackbarStore.useContainer()
+
   return (
     <Container maxWidth="lg" sx={{ px: 4 }}>
       <Head>
@@ -174,60 +92,134 @@ const Home: NextPage = () => {
           alignItems: 'center',
         }}
       >
-        <Typography
-          variant="h3"
-          component="h1"
+        <Box sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          pt: [1, 4],
+        }}
         >
-          BASIL BREEN
-        </Typography>
-        <Section items={originalMusic} />
-        <Button
-          sx={{ mt: 2 }}
-          size="large"
-          variant="outlined"
-          color="secondary"
-          href="/podcast"
-          startIcon={<span style={{ fontSize: 18 }}>🎧</span>}
-        >
-          Podcast Links
-        </Button>
-        <Box
-          sx={{
-            mt: 2,
-            width: '512px',
-            py: 2,
+          <Box sx={{
+            mt: -8,
+            display: ['none', 'initial'],
           }}
-        >
-          <Typography gutterBottom variant="h4" component="h2">
-            Original Music
-          </Typography>
-          <YouTubeVideo src="https://www.youtube.com/embed/vedeoseries?list=PL8u6B-yLLbT7UVf5-KeQBXNp0QEE_25yx" />
+          >
+            <Harp />
+          </Box>
+          <Box width={[500]}>
+            <Typography gutterBottom>
+              Hello, I'm
+              {' '}
+              <b>Basil Breen</b>
+              . I'm a singer & songwriter from
+              {' '}
+              <b>Dublin, Ireland.</b>
+              {' '}
+              I picked up the guitar back in 2014 and I've been exploring music ever since.
+            </Typography>
+            <Typography gutterBottom>
+              Music has always provided me with an immense sense of awe and wonder. I hoard music across all genres and cultures. There are few experiences in this world that compare with finding a new song that is able to bury itself deep within your bones.
+            </Typography>
+            <Typography gutterBottom>
+              Songs that understand. Songs that transcend explanation.
+            </Typography>
+            <Typography gutterBottom>
+              Music has given me so much. And I am going to
+              {' '}
+              <b>give back to music</b>
+              {' '}
+              in whatever way I can.
+            </Typography>
+            <Box display="flex" sx={{ mt: 4 }}>
+              <Button
+                size="large"
+                variant="outlined"
+                color="secondary"
+                onClick={() => {
+                  copy('hello@basilbreen.com')
+                  setMessage('Copied email address')
+                }}
+                startIcon={<EmailIcon color="secondary" fontSize="small" />}
+              >
+                Email
+              </Button>
+              <Button
+                sx={{ ml: 2 }}
+                size="large"
+                variant="outlined"
+                color="secondary"
+                href="/podcast"
+                startIcon={<span style={{ fontSize: 18 }}>🎧</span>}
+              >
+                Podcast
+              </Button>
+            </Box>
+          </Box>
         </Box>
         <Box
           sx={{
-            width: '512px',
-            py: 2,
+            mt: [4, 8],
+            mb: 8,
+            textAlign: ['left', 'center'],
           }}
+          display="flex"
+          flexDirection={['column', 'row']}
+          width="100%"
+          justifyContent="space-between"
         >
-          <Typography gutterBottom variant="h4" component="h2">
-            Podcast
-          </Typography>
-          <YouTubeVideo src="https://www.youtube.com/embed/vedeoseries?list=PL8u6B-yLLbT5x4RsVpdCpaw-0koJ5BN43" />
+          <Box width={['512px', '33%']}>
+            <Typography
+              gutterBottom
+              sx={{
+                typography: ['h5', 'h4'],
+              }}
+              component="h2"
+            >
+              Original Music
+            </Typography>
+            <YouTubeVideo src="https://www.youtube.com/embed/vedeoseries?list=PL8u6B-yLLbT7UVf5-KeQBXNp0QEE_25yx" />
+          </Box>
+          <Box width={['512px', '33%']}>
+            <Typography
+              gutterBottom
+              sx={{
+                typography: ['h5', 'h4'],
+              }}
+              component="h2"
+            >
+              Podcast
+            </Typography>
+            <YouTubeVideo src="https://www.youtube.com/embed/vedeoseries?list=PL8u6B-yLLbT5x4RsVpdCpaw-0koJ5BN43" />
+          </Box>
+          <Box width={['512px', '33%']}>
+            <Typography
+              gutterBottom
+              sx={{
+                typography: ['h5', 'h4'],
+              }}
+              component="h2"
+            >
+              Covers
+            </Typography>
+            <YouTubeVideo src="https://www.youtube.com/embed/vedeoseries?list=PL8u6B-yLLbT6EkFDqHZuWeJ1SlhaezS0T" />
+          </Box>
         </Box>
+        <Box width={1}>
+          <Typography
+            gutterBottom
+            sx={{
+              textAlign: ['left', 'center'],
+              typography: ['h5', 'h4'],
+            }}
+            component="h2"
+          >
+            Socials & Music
+          </Typography>
+        </Box>
+        <Section items={socials} />
         <Box
           sx={{
-            width: '512px',
-            py: 2,
-          }}
-        >
-          <Typography gutterBottom variant="h4" component="h2">
-            Covers
-          </Typography>
-          <YouTubeVideo src="https://www.youtube.com/embed/vedeoseries?list=PL8u6B-yLLbT6EkFDqHZuWeJ1SlhaezS0T" />
-        </Box>
-        <Box
-          sx={{
-            mt: 4,
+            mt: 8,
             display: 'flex',
           }}
         >

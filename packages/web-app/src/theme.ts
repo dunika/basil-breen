@@ -24,7 +24,6 @@ const coreTheme = createTheme({
     secondary: {
       main: '#fff',
     },
-
   },
 })
 
