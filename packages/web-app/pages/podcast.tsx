@@ -51,7 +51,7 @@ const links = [
   },
   {
     name: 'YouTube',
-    url: 'https://www.youtube.com/watch?v=mbs-M-LeTPg&list=PL8u6B-yLLbT5x4RsVpdCpaw-0koJ5BN43',
+    url: 'https://www.youtube.com/playlist?list=PL8u6B-yLLbT5x4RsVpdCpaw-0koJ5BN43',
     image: <img
       alt="YouTube"
       width="25"

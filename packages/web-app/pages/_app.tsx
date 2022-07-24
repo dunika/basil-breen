@@ -171,7 +171,7 @@ export default function App(props: AppProps) {
                 }}
               >
                 {navItems.map(({ href, text, icon }) => (
-                  <NextLink href={href} passHref>
+                  <NextLink href={href} passHref key={text}>
                     <Button
                       key={text}
                       sx={{
