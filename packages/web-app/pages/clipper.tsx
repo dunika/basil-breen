@@ -180,7 +180,7 @@ const Clipper: NextPage = () => {
   const ref = useRef()
 
   if (typeof window !== 'undefined') {
-    window.playerlad = ref.current.internalPlayer
+    window.playerlad = ref.current?.internalPlayer
   }
 
   const getCurrentTime = async () => {
