@@ -185,7 +185,9 @@ const Clipper: NextPage = () => {
 
   const getCurrentTime = () => {
     // return mockTime
-    return Math.round(ref.current.internalPlayer.getCurrentTime())
+    const time = Math.round(ref.current.internalPlayer.getCurrentTime())
+    console.log({ time })
+    return time
     // ref.current.internalPlayer.playerInfo.currentTime // seconds
   }
 
