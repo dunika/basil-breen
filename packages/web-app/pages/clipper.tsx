@@ -180,13 +180,12 @@ const Clipper: NextPage = () => {
   const ref = useRef()
 
   if (typeof window !== 'undefined') {
-    window.getTimestamp = getTimestamp
+    window.playerlad = ref.current.internalPlayer
   }
 
   const getCurrentTime = async () => {
     // return mockTime
     const time = await ref.current.internalPlayer.getCurrentTime()
-    window.playerlad = ref.current.internalPlayer
     return Math.round(time)
     // ref.current.internalPlayer.playerInfo.currentTime // seconds
   }
@@ -197,10 +196,11 @@ const Clipper: NextPage = () => {
     // ref.current.internalPlayer.playerInfo.currentTime // seconds
   }
 
-  const addNewClip = () => {
+  const addNewClip = async () => {
+    const time = await getCurrentTime()
     setClips((draft) => {
       draft.unshift({
-        start: getCurrentTime(),
+        start: time,
         end: null,
         caption: '',
         id: uniqueId(),
@@ -208,9 +208,10 @@ const Clipper: NextPage = () => {
     })
   }
 
-  const addEnd = () => {
+  const addEnd = async () => {
+    const time = await getCurrentTime()
     setClips((draft) => {
-      draft[0].end = getCurrentTime()
+      draft[0].end = time
     })
   }
   const [episodeNumber, setEpisodeNumber] = useState<string>('')
