@@ -1,7 +1,5 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { useLocalStorage } from '../src/hooks/useLocalStorage'
-import { getPostMessages } from '../src/hashtags'
 import copy from 'copy-to-clipboard'
 
 import {
@@ -18,12 +16,18 @@ import {
   useEffect,
   useState,
 } from 'react'
-import { addSeconds, startOfDay, getSeconds, getMinutes, getHours } from 'date-fns'
+import {
+  addSeconds,
+  startOfDay,
+  getSeconds,
+  getMinutes,
+  getHours,
+} from 'date-fns'
 import { uniqueId } from 'lodash'
 import YouTube from 'react-youtube'
+import { getPostMessages } from '../src/hashtags'
+import { useLocalStorage } from '../src/hooks/useLocalStorage'
 import { SnackbarStore } from '../src/Snackbar'
-
-
 
 const getTimestamp = (seconds) => {
   const date = addSeconds(startOfDay(new Date()), seconds)
@@ -31,8 +35,6 @@ const getTimestamp = (seconds) => {
   const secondsText = getSeconds(date).toString().padStart(2, '0')
 
   const minutesText = getMinutes(date).toString()
-
-  const timestamp = `${minutesText}:${secondsText}`
 
   const hours = getHours(date)
   if (!hours) {
@@ -42,7 +44,7 @@ const getTimestamp = (seconds) => {
   return `${hours}:${minutesText.padStart(2, '0')}:${secondsText}`
 }
 
-const formatTimestamps = clips => {
+const formatTimestamps = (clips) => {
   return clips.reverse().map((clip) => {
     return `${getTimestamp(clip.start)} ${clip.caption}`
   }).join('\n')
@@ -63,16 +65,19 @@ setInterval(() => {
   mockTime++
 }, 1000)
 
-const Clips = ({ clips, setClips, setCurrentTime, getCurrentTime }) => {
+const Clips = ({
+  clips,
+  setClips,
+  setCurrentTime,
+}) => {
   const updateClip = (index, update) => {
     setClips((draft) => {
       draft[index] = {
         ...draft[index],
-        ...update
+        ...update,
       }
     })
   }
-  console.log({ clips });
   const deleteClip = (index) => {
     setClips((draft) => {
       draft.splice(index, 1)
@@ -86,88 +91,86 @@ const Clips = ({ clips, setClips, setCurrentTime, getCurrentTime }) => {
     setCurrentTime(time + currentTimeIncrement)
   }
 
-
   return clips.map((clip, index) => {
-    return <Box
-      display="flex"
-      flexDirection={"column"}
-      py={2}
-      borderBottom="solid 1px black"
-      key={clip.id}
-    >
-      <Box display="flex" alignItems={'center'} mb={2} >
-        <MaterialTextField
-          value={clip.start}
-          onChange={({ target: { value } }) => {
-            return updateClip(index, {
-              start: value
-            })
-          }}
-          label="Start"
-          color="primary"
-          sx={{
-            width: 100,
-          }}
-        />
-        <Box mx={1} display="flex" flexDirection={"column"} >
-          <button onClick={() => setTimestamp(index, 'start', clip.start + 1)}>
-            ☝️
-          </button>
-          <div style={{ height: 8 }} />
-          <button onClick={() => setTimestamp(index, 'start', clip.start - 1, -5)}>
-            👇
+    return (
+      <Box
+        display="flex"
+        flexDirection="column"
+        py={2}
+        borderBottom="solid 1px black"
+        key={clip.id}
+      >
+        <Box display="flex" alignItems="center" mb={2}>
+          <MaterialTextField
+            value={clip.start}
+            onChange={({ target: { value } }) => {
+              return updateClip(index, {
+                start: value,
+              })
+            }}
+            label="Start"
+            color="primary"
+            sx={{
+              width: 100,
+            }}
+          />
+          <Box mx={1} display="flex" flexDirection="column">
+            <button onClick={() => setTimestamp(index, 'start', clip.start + 1)}>
+              ☝️
+            </button>
+            <div style={{ height: 8 }} />
+            <button onClick={() => setTimestamp(index, 'start', clip.start - 1, -5)}>
+              👇
+            </button>
+          </Box>
+          <MaterialTextField
+            value={clip.end}
+            onChange={({ target: { value } }) => {
+              return updateClip(index, {
+                end: value,
+              })
+            }}
+            label="End"
+            color="primary"
+            sx={{
+              width: 100,
+            }}
+            inputProps={{
+              type: 'number',
+            }}
+          />
+          <Box mx={1} display="flex" flexDirection="column">
+            <button onClick={() => setTimestamp(index, 'end', clip.end + 1)}>
+              ☝️
+            </button>
+            <div style={{ height: 8 }} />
+            <button onClick={() => setTimestamp(index, 'end', clip.end - 1, -5)}>
+              👇
+            </button>
+          </Box>
+          <button onClick={() => deleteClip(index)}>
+            X
           </button>
         </Box>
         <MaterialTextField
-          value={clip.end}
+          value={clip.caption}
           onChange={({ target: { value } }) => {
             return updateClip(index, {
-              end: value
+              caption: value,
             })
           }}
-          label="End"
+          label="Caption"
           color="primary"
-          sx={{
-            width: 100,
-          }}
-          inputProps={{
-            type: 'number'
-          }}
         />
-        <Box mx={1} display="flex" flexDirection={"column"} >
-          <button onClick={() => setTimestamp(index, 'end', clip.end + 1)}>
-            ☝️
-          </button>
-          <div style={{ height: 8 }} />
-          <button onClick={() => setTimestamp(index, 'end', clip.end - 1, -5)}>
-            👇
-          </button>
-        </Box>
-        <button onClick={() => deleteClip(index)}>
-          X
-        </button>
       </Box>
-      <MaterialTextField
-        value={clip.caption}
-        onChange={({ target: { value } }) => {
-          return updateClip(index, {
-            caption: value
-          })
-        }}
-        label="Caption"
-        color="primary"
-
-      />
-    </Box>
+    )
   })
 }
 
 const Clipper: NextPage = () => {
   const [videoId, setVideoId] = useState('TX6LdnfctxM')
-  const [showTimestamps, setShowTimestamps] = useState(false)
   const [clips, setClips] = useLocalStorage(videoId, [])
   const ref = useRef()
-
 
   if (typeof window !== 'undefined') {
     window.getTimestamp = getTimestamp
@@ -180,7 +183,7 @@ const Clipper: NextPage = () => {
   }
 
   const setCurrentTime = (time) => {
-    mockTime = Math.max(0, time)
+    // mockTime = Math.max(0, time)
     ref.current.internalPlayer.seek(time)
     // ref.current.internalPlayer.playerInfo.currentTime // seconds
   }
@@ -191,7 +194,7 @@ const Clipper: NextPage = () => {
         start: getCurrentTime(),
         end: null,
         caption: '',
-        id: uniqueId()
+        id: uniqueId(),
       })
     })
   }
@@ -241,10 +244,13 @@ const Clipper: NextPage = () => {
           height: 720,
         }}
       >
-        {videoId && <YouTube
+        {videoId && (
+        <YouTube
+          ref={ref}
           onError={console.error}
           videoId={videoId}
-        />}
+        />
+        )}
       </Box>
       <Paper
         sx={{
@@ -261,9 +267,9 @@ const Clipper: NextPage = () => {
             onClick={() => {
               copy(formatTimestamps(clips))
               setMessage('Copied timestamps')
-
             }}
-            sx={{ mr: 1 }} color="primary"
+            sx={{ mr: 1 }}
+            color="primary"
           >
             Timestamps
           </Button>
@@ -272,21 +278,34 @@ const Clipper: NextPage = () => {
               copy(formatMessages(clips, episodeNumber))
               setMessage('Copied post messages')
             }}
-            sx={{ mr: 1 }} color="primary" >
+            sx={{ mr: 1 }}
+            color="primary"
+          >
             Messages
           </Button>
           <Button
             onClick={() => {
-              const cleaned = clips.map(({ id, ...rest }) => ({ ...rest, episode: episodeNumber })).reverse()
+              const cleaned = clips.map(({ id, ...rest }) => ({
+                ...rest,
+                episode: episodeNumber,
+              })).reverse()
               copy(JSON.stringify(cleaned, null, 2))
               setMessage('Copied JSON for FFMPEG')
             }}
-            sx={{ mr: 1 }} color="primary" >
+            sx={{ mr: 1 }}
+            color="primary"
+          >
             JSON
           </Button>
         </Box>
         {/* <span style={{ color: 'red' }}>{mockTime}</span> */}
-        <Box sx={{ display: 'flex', mt: 3, mb: 4, alignItems: 'center' }}>
+        <Box sx={{
+          display: 'flex',
+          mt: 3,
+          mb: 4,
+          alignItems: 'center',
+        }}
+        >
           <MaterialTextField
             value={episodeNumber}
             onChange={({ target: { value } }) => setEpisodeNumber(value)}
@@ -294,7 +313,7 @@ const Clipper: NextPage = () => {
             color="primary"
             sx={{
               width: 100,
-              mr: 1
+              mr: 1,
             }}
             InputProps={{
               inputProps: {
@@ -321,10 +340,9 @@ const Clipper: NextPage = () => {
           setClips={setClips}
           setCurrentTime={setCurrentTime}
         />
-      </Paper >
-    </Container >
+      </Paper>
+    </Container>
   )
 }
-
 
 export default Clipper
