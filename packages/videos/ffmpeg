@@ -1,0 +1,15 @@
+
+
+optomize video
+ffmpeg -i podcast.mp4 -c:v libx265 -crf 28 -tag:v hvc1 -c:a copy paddy-optomized.mp4
+
+Scale and add frame to landscape video
+ffmpeg -i paddy-optomized.mp4 -i podcast_footer.png -to 00:21:08 -filter_complex "[0:v][1:v]overlay=x=0:y=0" -c:a copy podcast-short.mp4
+
+Scale and add frame to podcast clip and add text
+ffmpeg -i input.mp4 -i podcast_frame.png -filter_complex "[0:v]scale=1080:-1,pad=width=1080:height=1920:x=0:y=660:color=black[scaled];[scaled][1:v]overlay=x=0:y=0,drawtext=:text='The value of order and routine:fontcolor=black:fontsize=70:box=1:boxcolor=white:boxborderw=30:x=(w-text_w)/2:y=620-(text_h/2)" -codec:a copy output.mp4
+
+
+TODO:
+end screen at end of video
+ffmpeg -f concat -i input.txt -c copy output.mkv
