@@ -148,9 +148,16 @@ const Clips = ({
               👇
             </button>
           </Box>
-          <button onClick={() => deleteClip(index)}>
-            X
-          </button>
+
+          <Box mx={1} display="flex" flexDirection="column">
+            <button onClick={() => setCurrentTime(clip.start)}>
+              ▶️
+            </button>
+            <div style={{ height: 8 }} />
+            <button onClick={() => deleteClip(index)}>
+              X
+            </button>
+          </Box>
         </Box>
         <MaterialTextField
           value={clip.caption}
