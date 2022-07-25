@@ -178,7 +178,7 @@ const Clipper: NextPage = () => {
 
   const getCurrentTime = () => {
     // return mockTime
-    return Math.round(ref.current.internalPlayer.playerInfo.currentTime)
+    return Math.round(ref.current.internalPlayer.getCurrentTime())
     // ref.current.internalPlayer.playerInfo.currentTime // seconds
   }
 
@@ -245,11 +245,11 @@ const Clipper: NextPage = () => {
         }}
       >
         {videoId && (
-        <YouTube
-          ref={ref}
-          onError={console.error}
-          videoId={videoId}
-        />
+          <YouTube
+            ref={ref}
+            onError={console.error}
+            videoId={videoId}
+          />
         )}
       </Box>
       <Paper
@@ -335,7 +335,6 @@ const Clipper: NextPage = () => {
 
         </Box>
         <Clips
-          getCurrentTime={getCurrentTime}
           clips={clips}
           setClips={setClips}
           setCurrentTime={setCurrentTime}
