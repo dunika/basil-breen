@@ -12,13 +12,12 @@ import Head from 'next/head'
 import { ReactElement } from 'react'
 import {
   SnackbarStore,
-  SnackbarProvider,
 } from '../src/Snackbar'
 import Link from '../src/Link'
 import { socials } from '../src/socials'
 import { Harp } from '../src/harp'
 
-const YouTubeVideo = ({ src }: { src: string}) => {
+const YouTubeVideo = ({ src }: { src: string }) => {
   return (
     <div className="youtube-container">
       <iframe
@@ -228,18 +227,15 @@ const Home: NextPage = () => {
           <span>|</span>
           &nbsp;
           <Link href="./thumbnail-generator">Thumbnail Generator</Link>
+          &nbsp;
+          <span>|</span>
+          &nbsp;
+          <Link href="./clipper">Podcast Clipper</Link>
         </Box>
       </Box>
     </Container>
   )
 }
 
-const HomeProvider: NextPage = (props) => {
-  return (
-    <SnackbarProvider>
-      <Home {...props} />
-    </SnackbarProvider>
-  )
-}
 
-export default HomeProvider
+export default Home

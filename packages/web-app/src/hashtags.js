@@ -5,32 +5,25 @@ const hashtags = {
     tags: [
       'irish',
       'ireland',
-      'irishcreaters',
       'irishcreater',
-      'irishcreatives',
     ],
     music: [
       'irishmusician',
       'irelandmusic',
-      'irishmusicians',
       'irishmusicscene',
     ],
     podcast: [
       'irishpodcast',
-      'irishpodcasters',
       'irishpodcaster',
     ],
   },
   dublin: {
     tags: [
       'dublin',
-      'dubliner',
-      'dubliners',
       'dublinireland',
     ],
     music: [
       'dublinmusician',
-      'dublinmusicians',
       'dublinmusic',
       'dublinmusicscene',
     ],
@@ -84,10 +77,10 @@ const hashtags = {
     'originalmusic',
     'originalmusician',
     'originalsong',
-    'originalsongs',
   ],
   podcast: [
     'podcast',
+    'podcaster',
   ],
   busking: [
     'busking',
@@ -128,11 +121,11 @@ const getHashTagGroups = ({ locations, postTypes }) => {
   }
 }
 
-const getHashTags = (tagConfig) => {
+const getHashTags = (tagConfig, options = {}) => {
   const {
     max = 30,
     shouldShuffle = true,
-  } = tagConfig
+  } = options
   const {
     locationTags,
     locationPostTypeTags,
@@ -195,26 +188,19 @@ const getTikTokMessage = (text, tagConfig) => {
 }
 
 const getInstagramMessage = (text, tagConfig) => {
-  const hashtags = getHashTags(tagConfig)
+  const hashtags = getHashTags(tagConfig, { max: 11 })
   if (!text) {
     return hashtags
   }
   return `
 ${text}
-.
-.
-.
-.
-.
+
 ${hashtags}
 `.trim()
 }
 
 const getFacebookMessage = (text, tagConfig) => {
-  const hashtags = getHashTags({
-    ...tagConfig,
-    shuffle: false,
-  })
+  const hashtags = getHashTags(tagConfig, { max: 4, shuffle: false })
   if (!text) {
     return hashtags
   }
@@ -226,7 +212,7 @@ ${hashtags}
 }
 
 const getYoutubeMessage = (text, tagConfig) => {
-  const hashtags = getHashTags(tagConfig)
+  const hashtags = getHashTags(tagConfig, { max: 15 })
   if (!text) {
     return hashtags
   }
@@ -249,12 +235,25 @@ ${hashtags}
 `.trim()
 }
 
+const defaultTagsConfig = {
+  facebook: {
+    max: 3
+  },
+  instagram: {
+    max: 11
+  },
+  youtube: {
+    max: 15
+  },
+  tikTok: {}
+}
+
 export const getPostMessages = (text, tagConfigs) => {
   return {
-    facebook: getFacebookMessage(text, tagConfigs.facebook),
-    instagram: getInstagramMessage(text, tagConfigs.instagram),
-    youtube: getYoutubeMessage(text, tagConfigs.youtube),
-    tikTok: getTikTokMessage(text, tagConfigs.tikTok),
+    facebook: getFacebookMessage(text, tagConfigs),
+    instagram: getInstagramMessage(text, tagConfigs),
+    youtube: getYoutubeMessage(text, tagConfigs),
+    tikTok: getTikTokMessage(text, tagConfigs),
   }
 }
 

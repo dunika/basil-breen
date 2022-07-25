@@ -1,8 +1,9 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useLocalStorage } from '../src/hooks/useLocalStorage'
-import YouTube from 'react-youtube'
-import { useHotkeys } from 'react-hotkeys-hook'
+import { getPostMessages } from '../src/hashtags'
+import copy from 'copy-to-clipboard'
+
 import {
   Container,
   TextField as MaterialTextField,
@@ -15,16 +16,14 @@ import {
 import {
   useRef,
   useEffect,
-  useCallback,
   useState,
 } from 'react'
-import {
-  setFontSize,
-  fillWrappedText,
-  downloadImage,
-  createImageFromCanvas,
-} from '../src/canvas'
 import { addSeconds, startOfDay, getSeconds, getMinutes, getHours } from 'date-fns'
+import { uniqueId } from 'lodash'
+import YouTube from 'react-youtube'
+import { SnackbarStore } from '../src/Snackbar'
+
+
 
 const getTimestamp = (seconds) => {
   const date = addSeconds(startOfDay(new Date()), seconds)
@@ -41,24 +40,189 @@ const getTimestamp = (seconds) => {
   }
 
   return `${hours}:${minutesText.padStart(2, '0')}:${secondsText}`
-
 }
 
+const formatTimestamps = clips => {
+  return clips.reverse().map((clip) => {
+    return `${getTimestamp(clip.start)} ${clip.caption}`
+  }).join('\n')
+}
+
+const formatMessages = (clips, episode) => {
+  return clips.reverse().map((clip) => {
+    return getPostMessages(`${clip.caption}${episode ? ` | Ep.${episode} (link in bio)` : ''}`, {
+      max: 11,
+      locations: ['dublin', 'ireland', 'skerries'],
+      postTypes: ['podcast'],
+    }).tikTok
+  }).join('\n\n')
+}
+
+let mockTime = 0
+setInterval(() => {
+  mockTime++
+}, 1000)
+
+const Clips = ({ clips, setClips, setCurrentTime, getCurrentTime }) => {
+  const updateClip = (index, update) => {
+    setClips((draft) => {
+      draft[index] = {
+        ...draft[index],
+        ...update
+      }
+    })
+  }
+  console.log({ clips });
+  const deleteClip = (index) => {
+    setClips((draft) => {
+      draft.splice(index, 1)
+    })
+  }
+
+  const setTimestamp = (index, key, time, currentTimeIncrement = 0) => {
+    setClips((draft) => {
+      draft[index][key] = time
+    })
+    setCurrentTime(time + currentTimeIncrement)
+  }
+
+
+  return clips.map((clip, index) => {
+    return <Box
+      display="flex"
+      flexDirection={"column"}
+      py={2}
+      borderBottom="solid 1px black"
+      key={clip.id}
+    >
+      <Box display="flex" alignItems={'center'} mb={2} >
+        <MaterialTextField
+          value={clip.start}
+          onChange={({ target: { value } }) => {
+            return updateClip(index, {
+              start: value
+            })
+          }}
+          label="Start"
+          color="primary"
+          sx={{
+            width: 100,
+          }}
+        />
+        <Box mx={1} display="flex" flexDirection={"column"} >
+          <button onClick={() => setTimestamp(index, 'start', clip.start + 1)}>
+            ☝️
+          </button>
+          <div style={{ height: 8 }} />
+          <button onClick={() => setTimestamp(index, 'start', clip.start - 1, -5)}>
+            👇
+          </button>
+        </Box>
+        <MaterialTextField
+          value={clip.end}
+          onChange={({ target: { value } }) => {
+            return updateClip(index, {
+              end: value
+            })
+          }}
+          label="End"
+          color="primary"
+          sx={{
+            width: 100,
+          }}
+          inputProps={{
+            type: 'number'
+          }}
+        />
+        <Box mx={1} display="flex" flexDirection={"column"} >
+          <button onClick={() => setTimestamp(index, 'end', clip.end + 1)}>
+            ☝️
+          </button>
+          <div style={{ height: 8 }} />
+          <button onClick={() => setTimestamp(index, 'end', clip.end - 1, -5)}>
+            👇
+          </button>
+        </Box>
+        <button onClick={() => deleteClip(index)}>
+          X
+        </button>
+      </Box>
+      <MaterialTextField
+        value={clip.caption}
+        onChange={({ target: { value } }) => {
+          return updateClip(index, {
+            caption: value
+          })
+        }}
+        label="Caption"
+        color="primary"
+
+      />
+    </Box>
+  })
+}
 
 const Clipper: NextPage = () => {
   const [videoId, setVideoId] = useState('TX6LdnfctxM')
-  const [clips, setClips] = useLocalStorage(videoId, {})
+  const [showTimestamps, setShowTimestamps] = useState(false)
+  const [clips, setClips] = useLocalStorage(videoId, [])
   const ref = useRef()
+
+
   if (typeof window !== 'undefined') {
     window.getTimestamp = getTimestamp
   }
 
-  useHotkeys('ctrl+a', () => {
-    console.log(
-      ref.current.internalPlayer.playerInfo.currentTime // seconds
-    )
+  const getCurrentTime = () => {
+    // return mockTime
+    return Math.round(ref.current.internalPlayer.playerInfo.currentTime)
+    // ref.current.internalPlayer.playerInfo.currentTime // seconds
+  }
+
+  const setCurrentTime = (time) => {
+    mockTime = Math.max(0, time)
+    ref.current.internalPlayer.seek(time)
+    // ref.current.internalPlayer.playerInfo.currentTime // seconds
+  }
+
+  const addNewClip = () => {
+    setClips((draft) => {
+      draft.unshift({
+        start: getCurrentTime(),
+        end: null,
+        caption: '',
+        id: uniqueId()
+      })
+    })
+  }
+
+  const addEnd = () => {
+    setClips((draft) => {
+      draft[0].end = getCurrentTime()
+    })
+  }
+  const [episodeNumber, setEpisodeNumber] = useState<string>('')
+
+  useEffect(() => {
+    // debugger
+    // console.log(
+    //   ref.current.internalPlayer.playerInfo.currentTime // seconds
+    // )
+
+    const handler = (event) => {
+      if (event.shiftKey) {
+        addNewClip()
+      }
+      if (event.metaKey) {
+        addEnd()
+      }
+    }
+
+    window.addEventListener('click', handler)
+    return () => window.removeEventListener('click', handler)
   })
 
+  const { setMessage } = SnackbarStore.useContainer()
 
   return (
     <Container
@@ -69,8 +233,19 @@ const Clipper: NextPage = () => {
       }}
     >
       <Head>
-        <title>Basil Breen | Thumbnail Generator</title>
+        <title>Basil Breen | Video Clipper</title>
       </Head>
+      <Box
+        sx={{
+          width: 720,
+          height: 720,
+        }}
+      >
+        {videoId && <YouTube
+          onError={console.error}
+          videoId={videoId}
+        />}
+      </Box>
       <Paper
         sx={{
           mr: 2,
@@ -81,44 +256,73 @@ const Clipper: NextPage = () => {
           alignItems: 'flex-start',
         }}
       >
-        <MaterialTextField
-          value={videoId}
-          onChange={({ target: { value } }) => setVideoId(value)}
-          label="Video ID"
-          color="primary"
-          sx={{
-            width: 200,
-            mb: 4,
-          }}
+        <Box display="flex">
+          <Button
+            onClick={() => {
+              copy(formatTimestamps(clips))
+              setMessage('Copied timestamps')
 
-        />
-        <Box sx={{ display: 'flex' }}>
-          <Button color="primary" >
-            Download
+            }}
+            sx={{ mr: 1 }} color="primary"
+          >
+            Timestamps
+          </Button>
+          <Button
+            onClick={() => {
+              copy(formatMessages(clips, episodeNumber))
+              setMessage('Copied post messages')
+            }}
+            sx={{ mr: 1 }} color="primary" >
+            Messages
+          </Button>
+          <Button
+            onClick={() => {
+              const cleaned = clips.map(({ id, ...rest }) => ({ ...rest, episode: episodeNumber })).reverse()
+              copy(JSON.stringify(cleaned, null, 2))
+              setMessage('Copied JSON for FFMPEG')
+            }}
+            sx={{ mr: 1 }} color="primary" >
+            JSON
           </Button>
         </Box>
-      </Paper>
-      <Box
-        sx={{
-          width: 256,
-          height: 256,
-        }}
-      >
-        {videoId && <YouTube
-          opt={{
-            host: 'https://www.youtube.com',
-            playerVars: {
-              origin: 'http://localhost:3000',
+        {/* <span style={{ color: 'red' }}>{mockTime}</span> */}
+        <Box sx={{ display: 'flex', mt: 3, mb: 4, alignItems: 'center' }}>
+          <MaterialTextField
+            value={episodeNumber}
+            onChange={({ target: { value } }) => setEpisodeNumber(value)}
+            label="Episode"
+            color="primary"
+            sx={{
+              width: 100,
+              mr: 1
+            }}
+            InputProps={{
+              inputProps: {
+                type: 'number',
+              },
+              startAdornment: <InputAdornment sx={{ color: 'primary.main' }} position="start">#</InputAdornment>,
+            }}
+          />
+          <MaterialTextField
+            value={videoId}
+            onChange={({ target: { value } }) => setVideoId(value)}
+            label="Video ID"
+            color="primary"
+            sx={{
+              width: 200,
+              mr: 2,
+            }}
+          />
 
-
-              // rel?: 0 | 1;
-            }
-          }}
-          onError={console.error}
-          videoId={videoId}
-        />}
-      </Box>
-    </Container>
+        </Box>
+        <Clips
+          getCurrentTime={getCurrentTime}
+          clips={clips}
+          setClips={setClips}
+          setCurrentTime={setCurrentTime}
+        />
+      </Paper >
+    </Container >
   )
 }
 

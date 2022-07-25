@@ -31,6 +31,7 @@ import createEmotionCache from '../src/createEmotionCache'
 import theme from '../src/theme'
 import { socials } from '../src/socials'
 import Link from '../src/Link'
+import { SnackbarProvider } from '../src/Snackbar'
 
 const clientSideEmotionCache = createEmotionCache()
 
@@ -93,99 +94,100 @@ export default function App(props: AppProps) {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <AppBar component="nav" color="secondary" position="relative">
-          <Container disableGutters>
-            <Toolbar
-              color="primary"
-              sx={{
-                width: '100%',
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              <Link
-                href="/"
+        <SnackbarProvider>
+          <CssBaseline />
+          <AppBar component="nav" color="secondary" position="relative">
+            <Container disableGutters>
+              <Toolbar
+                color="primary"
                 sx={{
+                  width: '100%',
                   display: 'flex',
                   alignItems: 'center',
                 }}
               >
-                <Avatar
+                <Link
+                  href="/"
                   sx={{
-                    width: 44,
-                    height: 44,
-                  }}
-                  src="http://1.gravatar.com/avatar/0f4c1f27b44b7cc73a615377e5571788"
-                />
-                <Typography
-                  variant="h5"
-                  color="primary"
-                  component="div"
-                  sx={{
-                    whiteSpace: 'nowrap',
-                    fontWeight: 'bold',
-                    ml: 1,
-                    mr: [0, 2],
+                    display: 'flex',
+                    alignItems: 'center',
                   }}
                 >
-                  Basil Breen
-                </Typography>
-              </Link>
-              <Box
-                display="flex"
-                sx={{
-                  ml: ['auto'],
-                  alignItems: 'center',
-                }}
-              >
-                {socials.map((item) => {
-                  const {
-                    text, Icon, url, important,
-                  } = item
-                  const { paddingBottom, fontSize, ml } = iconProps[text] || {}
-                  return (
-                    <IconButton
-                      color="primary"
-                      sx={{
-                        fontSize,
-                        ml: [ml ?? 1],
-                        display: [important ? 'inline-flex' : 'none', important ? 'inline-flex' : 'none', 'inline-flex'],
-                      }}
-                      key={text}
-                      target="_blank"
-                      href={url}
-                    >
-                      <Icon size={36} fontSize={fontSize || 42} paddingBottom={paddingBottom} />
-                    </IconButton>
-                  )
-                })}
-              </Box>
-              <Box
-                sx={{
-                  ml: 'auto',
-                  display: {
-                    xs: 'none',
-                    sm: 'block',
-                  },
-                }}
-              >
-                {navItems.map(({ href, text, icon }) => (
-                  <NextLink href={href} passHref key={text}>
-                    <Button
-                      key={text}
-                      sx={{
-                        ml: 2,
-                        color: '#fff',
-                      }}
-                      startIcon={icon}
-                    >
-                      {text}
-                    </Button>
-                  </NextLink>
-                ))}
-              </Box>
-              {/* <IconButton
+                  <Avatar
+                    sx={{
+                      width: 44,
+                      height: 44,
+                    }}
+                    src="http://1.gravatar.com/avatar/0f4c1f27b44b7cc73a615377e5571788"
+                  />
+                  <Typography
+                    variant="h5"
+                    color="primary"
+                    component="div"
+                    sx={{
+                      whiteSpace: 'nowrap',
+                      fontWeight: 'bold',
+                      ml: 1,
+                      mr: [0, 2],
+                    }}
+                  >
+                    Basil Breen
+                  </Typography>
+                </Link>
+                <Box
+                  display="flex"
+                  sx={{
+                    ml: ['auto'],
+                    alignItems: 'center',
+                  }}
+                >
+                  {socials.map((item) => {
+                    const {
+                      text, Icon, url, important,
+                    } = item
+                    const { paddingBottom, fontSize, ml } = iconProps[text] || {}
+                    return (
+                      <IconButton
+                        color="primary"
+                        sx={{
+                          fontSize,
+                          ml: [ml ?? 1],
+                          display: [important ? 'inline-flex' : 'none', important ? 'inline-flex' : 'none', 'inline-flex'],
+                        }}
+                        key={text}
+                        target="_blank"
+                        href={url}
+                      >
+                        <Icon size={36} fontSize={fontSize || 42} paddingBottom={paddingBottom} />
+                      </IconButton>
+                    )
+                  })}
+                </Box>
+                <Box
+                  sx={{
+                    ml: 'auto',
+                    display: {
+                      xs: 'none',
+                      sm: 'block',
+                    },
+                  }}
+                >
+                  {navItems.map(({ href, text, icon }) => (
+                    <NextLink href={href} passHref key={text}>
+                      <Button
+                        key={text}
+                        sx={{
+                          ml: 2,
+                          color: '#fff',
+                        }}
+                        startIcon={icon}
+                      >
+                        {text}
+                      </Button>
+                    </NextLink>
+                  ))}
+                </Box>
+                {/* <IconButton
                 color="primary"
                 aria-label="open drawer"
                 edge="start"
@@ -197,34 +199,35 @@ export default function App(props: AppProps) {
               >
                 <MenuIcon style={{ fontSize: 36 }} />
               </IconButton> */}
-            </Toolbar>
-          </Container>
-        </AppBar>
-        <Box component="nav">
-          <Drawer
-            anchor="right"
-            container={container}
-            variant="temporary"
-            open={mobileOpen}
-            onClose={handleDrawerToggle}
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}
-            sx={{
-              display: {
-                xs: 'block',
-                sm: 'none',
-              },
-              '& .MuiDrawer-paper': {
-                boxSizing: 'border-box',
-                width: drawerWidth,
-              },
-            }}
-          >
-            {drawer}
-          </Drawer>
-        </Box>
-        <Component {...pageProps} />
+              </Toolbar>
+            </Container>
+          </AppBar>
+          <Box component="nav">
+            <Drawer
+              anchor="right"
+              container={container}
+              variant="temporary"
+              open={mobileOpen}
+              onClose={handleDrawerToggle}
+              ModalProps={{
+                keepMounted: true, // Better open performance on mobile.
+              }}
+              sx={{
+                display: {
+                  xs: 'block',
+                  sm: 'none',
+                },
+                '& .MuiDrawer-paper': {
+                  boxSizing: 'border-box',
+                  width: drawerWidth,
+                },
+              }}
+            >
+              {drawer}
+            </Drawer>
+          </Box>
+          <Component {...pageProps} />
+        </SnackbarProvider>
       </ThemeProvider>
     </CacheProvider>
   )
