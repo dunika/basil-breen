@@ -45,13 +45,13 @@ const getTimestamp = (seconds) => {
 }
 
 const formatTimestamps = (clips) => {
-  return clips.reverse().map((clip) => {
+  return [...clips].reverse().map((clip) => {
     return `${getTimestamp(clip.start)} ${clip.caption}`
   }).join('\n')
 }
 
 const formatMessages = (clips, episode) => {
-  return clips.reverse().map((clip) => {
+  return [...clips].reverse().map((clip) => {
     return getPostMessages(`${clip.caption}${episode ? ` | Ep.${episode} (link in bio)` : ''}`, {
       max: 11,
       locations: ['dublin', 'ireland', 'skerries'],
@@ -192,6 +192,7 @@ const Clipper: NextPage = () => {
 
   const setCurrentTime = (time) => {
     // mockTime = Math.max(0, time)
+    // return
     ref.current.internalPlayer.seekTo(time)
     // ref.current.internalPlayer.playerInfo.currentTime // seconds
   }
