@@ -183,18 +183,17 @@ const Clipper: NextPage = () => {
     window.getTimestamp = getTimestamp
   }
 
-  const getCurrentTime = () => {
+  const getCurrentTime = async () => {
     // return mockTime
-    const time = Math.round(ref.current.internalPlayer.getCurrentTime())
+    const time = await ref.current.internalPlayer.getCurrentTime()
     window.playerlad = ref.current.internalPlayer
-    console.log({ time })
-    return time
+    return Math.round(time)
     // ref.current.internalPlayer.playerInfo.currentTime // seconds
   }
 
   const setCurrentTime = (time) => {
     // mockTime = Math.max(0, time)
-    ref.current.internalPlayer.seek(time)
+    ref.current.internalPlayer.seekTo(time)
     // ref.current.internalPlayer.playerInfo.currentTime // seconds
   }
 
